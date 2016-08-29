@@ -1,6 +1,7 @@
+import json
+from namespaces import FrozenNamespace, Namespace, NamespaceEncoder
 import unittest
 
-from namespaces import FrozenNamespace, Namespace
 
 class FrozenNamespaceTest(unittest.TestCase):
 
@@ -67,6 +68,11 @@ class FrozenNamespaceTest(unittest.TestCase):
   def test_hashable(self):
     fn = FrozenNamespace(a=1, b=2)
     self.assertIsInstance(hash(fn), int)
+
+  def test_json(self):
+    d = {'a': 1, 'b': 2}
+    fn = FrozenNamespace(d)
+    self.assertEqual(json.dumps(d), json.dumps(fn, cls=NamespaceEncoder))
 
 if __name__ == '__main__':
   unittest.main()
