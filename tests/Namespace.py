@@ -1,6 +1,6 @@
+import json
+from namespaces import FrozenNamespace, Namespace, NamespaceEncoder
 import unittest
-
-from namespaces import FrozenNamespace, Namespace
 
 class NamespaceTest(unittest.TestCase):
 
@@ -55,6 +55,11 @@ class NamespaceTest(unittest.TestCase):
     del ns['a']
     self.assertNotIn('a', ns)
     self.assertEqual(len(ns), 1)
+
+  def test_json(self):
+    d = {'a': 1, 'b': 2}
+    ns = Namespace(d)
+    self.assertEqual(json.dumps(d), json.dumps(ns, cls=NamespaceEncoder))
 
 if __name__ == '__main__':
   unittest.main()
