@@ -2,7 +2,6 @@ import json
 from namespaces import FrozenNamespace, Namespace, NamespaceEncoder
 import unittest
 
-
 class FrozenNamespaceTest(unittest.TestCase):
 
   def test_create_empty(self):
