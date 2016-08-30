@@ -26,6 +26,19 @@ class FrozenNamespaceTest(unittest.TestCase):
     self.assertIsInstance(fn, FrozenNamespace)
     self.assertEqual(ns.items(), fn.items())
 
+  def test_eq(self):
+    fn1 = FrozenNamespace(a=1, b=2)
+    fn2 = FrozenNamespace(a=1, b=2)
+    self.assertEqual(fn1, fn2)
+
+  def test_ne(self):
+    fn1 = FrozenNamespace(a=1)
+    fn2 = FrozenNamespace(a=1, b=2)
+    fn3 = FrozenNamespace(c=3)
+    self.assertNotEqual(fn1, fn2)
+    self.assertNotEqual(fn2, fn3)
+    self.assertNotEqual(fn1, fn3)
+
   def test_item_get(self):
     fn = FrozenNamespace(a=1, b=2)
     self.assertEqual(fn['a'], 1)
@@ -40,6 +53,10 @@ class FrozenNamespaceTest(unittest.TestCase):
   def test_attr_get(self):
     fn = FrozenNamespace(a=1, b=2)
     self.assertEqual(fn.a, 1)
+    with self.assertRaises(AttributeError) as context:
+      fn.c
+    message = "'FrozenNamespace' object has no attribute 'c'"
+    self.assertEqual(message, context.exception.message)
 
   def test_attr_set(self):
     fn = FrozenNamespace()
@@ -72,6 +89,10 @@ class FrozenNamespaceTest(unittest.TestCase):
     d = {'a': 1, 'b': 2}
     fn = FrozenNamespace(d)
     self.assertEqual(json.dumps(d), json.dumps(fn, cls=NamespaceEncoder))
+
+  def test_repr(self):
+    fn = FrozenNamespace(a=1, b=2)
+    self.assertEqual(repr(fn), 'FrozenNamespace(a=1, b=2)')
 
 if __name__ == '__main__':
   unittest.main()
