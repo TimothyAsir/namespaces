@@ -23,3 +23,19 @@ fns.c = 3 # => AttributeError
 ```
 
 `FrozenNamespace` is an immutable, hashable `Namespace`. The hash is lazily computed and is cached for performance.
+
+## Tests
+
+### unittest
+
+```bash
+$ python setup.py test
+```
+
+### coverage
+
+```bash
+$ coverage run --source namespaces/ setup.py test
+$ coverage html
+$ open htmlcov/index.html
+```
