@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 class Namespace(dict):
   '''A dictionary with attributes instead of keys.
@@ -27,11 +27,8 @@ class Namespace(dict):
     return '{}({})'.format(type(self).__name__, ', '.join(items))
 
   def __eq__(self, other):
-    return isinstance(other, type(self)) and super(Namespace).__eq__(self, other)
+    return isinstance(other, type(self)) and super(self.__class__, self).__eq__(other)
 
   def __ne__(self, other):
     return not self == other
 
-  def immutable(self):
-    from namespaces import FrozenNamespace
-    return FrozenNamespace(self)

@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 from icicle import FrozenDict
 from namespaces import Namespace
 
@@ -34,7 +34,7 @@ class FrozenNamespace(FrozenDict):
     return '{}({})'.format(type(self).__name__, ', '.join(items))
 
   def __eq__(self, other):
-    return isinstance(other, type(self)) and super(Namespace).__eq__(self, other)
+    return isinstance(other, type(self)) and super(self.__class__, self).__eq__(other)
 
   def __ne__(self, other):
     return not self == other
@@ -45,5 +45,3 @@ class FrozenNamespace(FrozenDict):
       self._hash = hash(frozenset(self.items()))
     return self._hash
 
-  def mutable(self):
-    return Namespace(self)
