@@ -11,5 +11,6 @@ setup(
   packages=['namespaces'],
   install_requires=[
     'icicle>=0.1.3'
-  ]
+  ],
+  test_suite='tests'
 )
