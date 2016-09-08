@@ -1,4 +1,5 @@
-[![codecov](https://codecov.io/gh/pcattori/namespaces/branch/master/graph/badge.svg)](https://codecov.io/gh/pcattori/namespaces)
+[![Build Status](https://travis-ci.org/pcattori/namespaces.svg?branch=master)](https://travis-ci.org/pcattori/namespaces)
+[![Test Code Coverage](https://codecov.io/gh/pcattori/namespaces/branch/master/graph/badge.svg)](https://codecov.io/gh/pcattori/namespaces)
 
 > Namespaces are one honking great idea -- let's do more of those!
 - [PEP 20: The Zen of Python](https://www.python.org/dev/peps/pep-0020/)
