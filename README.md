@@ -32,10 +32,3 @@ fns.c = 3 # => AttributeError
 $ python setup.py test
 ```
 
-### coverage
-
-```bash
-$ coverage run --source namespaces/ setup.py test
-$ coverage html
-$ open htmlcov/index.html
-```
