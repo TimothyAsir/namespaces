@@ -26,6 +26,19 @@ class NamespaceTest(unittest.TestCase):
     self.assertIsInstance(ns, Namespace)
     self.assertEqual(ns.items(), fn.items())
 
+  def test_eq(self):
+    ns1 = Namespace(a=1, b=2)
+    ns2 = Namespace(a=1, b=2)
+    self.assertEqual(ns1, ns2)
+
+  def test_ne(self):
+    ns1 = Namespace(a=1)
+    ns2 = Namespace(a=1, b=2)
+    ns3 = Namespace(c=3)
+    self.assertNotEqual(ns1, ns2)
+    self.assertNotEqual(ns2, ns3)
+    self.assertNotEqual(ns1, ns3)
+
   def test_item_setget(self):
     ns = Namespace()
     ns['c'] = 3
@@ -33,8 +46,12 @@ class NamespaceTest(unittest.TestCase):
 
   def test_attr_setget(self):
     ns = Namespace()
-    ns.c = 3
-    self.assertEqual(ns.c, 3)
+    ns.a = 1
+    self.assertEqual(ns.a, 1)
+    with self.assertRaises(AttributeError) as context:
+      ns.c
+    message = "'Namespace' object has no attribute 'c'"
+    self.assertEqual(message, context.exception.message)
 
   def test_len(self):
     ns = Namespace(a=1, b=2)
@@ -60,6 +77,10 @@ class NamespaceTest(unittest.TestCase):
     d = {'a': 1, 'b': 2}
     ns = Namespace(d)
     self.assertEqual(json.dumps(d), json.dumps(ns, cls=NamespaceEncoder))
+
+  def test_repr(self):
+    ns = Namespace(a=1, b=2)
+    self.assertEqual(repr(ns), 'Namespace(a=1, b=2)')
 
 if __name__ == '__main__':
   unittest.main()
