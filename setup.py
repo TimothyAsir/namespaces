@@ -9,8 +9,5 @@ setup(
   author_email='pcattori@gmail.com',
   license='MIT',
   packages=['namespaces'],
-  install_requires=[
-    'icicle>=0.1.3'
-  ],
   test_suite='tests'
 )
