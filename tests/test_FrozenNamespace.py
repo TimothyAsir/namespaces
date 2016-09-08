@@ -94,8 +94,5 @@ class FrozenNamespaceTest(unittest.TestCase):
     fn = FrozenNamespace(a=1, b=2)
     self.assertEqual(repr(fn), 'FrozenNamespace(a=1, b=2)')
 
-  def test_blah(self):
-    pass
-
 if __name__ == '__main__':
   unittest.main()
