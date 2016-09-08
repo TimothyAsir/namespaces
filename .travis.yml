@@ -3,7 +3,11 @@ python:
   - 2.7
   # - 3.5
 install: pip install .
-script: coverage run --source namespaces setup.py test
+script:
+- coverage run --source namespaces setup.py test
+- pylint --py3k
 # test coverage via codecov
-before_install: pip install codecov
+before_install:
+- pip install pylint
+- pip install codecov
 after_success: codecov
