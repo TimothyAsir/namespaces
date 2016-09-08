@@ -7,6 +7,6 @@ class NamespaceEncoder(json.JSONEncoder):
     if isinstance(obj, FrozenNamespace):
       return obj._dict
     elif isinstance(obj, Namespace):
-      return obj # rely on dict inheritance
+      return obj._dict
     return json.JSONEncoder.default(self, obj)
 
