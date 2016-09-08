@@ -3,7 +3,7 @@ python:
   - 2.7
   # - 3.5
 install: pip install .
-script: coverage run setup.py test
+script: coverage run --source namespaces setup.py test
 # test coverage via codecov
 before_install: pip install codecov
 after_success: codecov
