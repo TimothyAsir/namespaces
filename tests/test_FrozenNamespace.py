@@ -1,6 +1,7 @@
 import json
 from namespaces import FrozenNamespace, Namespace, NamespaceEncoder
 import unittest
+from six import iteritems
 
 class FrozenNamespaceTest(unittest.TestCase):
 
@@ -53,7 +54,7 @@ class FrozenNamespaceTest(unittest.TestCase):
     with self.assertRaises(TypeError) as context:
       fn['c'] = 3
     message = "'FrozenNamespace' object does not support item assignment"
-    self.assertEqual(message, context.exception.message)
+    self.assertEqual(message, str(context.exception))
 
   def test_attr_get(self):
     fn = FrozenNamespace(a=1, b=2)
@@ -61,14 +62,14 @@ class FrozenNamespaceTest(unittest.TestCase):
     with self.assertRaises(AttributeError) as context:
       fn.c
     message = "'FrozenNamespace' object has no attribute 'c'"
-    self.assertEqual(message, context.exception.message)
+    self.assertEqual(message, str(context.exception))
 
   def test_attr_set(self):
     fn = FrozenNamespace()
     with self.assertRaises(AttributeError) as context:
       fn.c = 3
     message = "'FrozenNamespace' object has no attribute 'c'"
-    self.assertEqual(message, context.exception.message)
+    self.assertEqual(message, str(context.exception))
 
   def test_len(self):
     fn = FrozenNamespace(a=1, b=2)
@@ -76,7 +77,7 @@ class FrozenNamespaceTest(unittest.TestCase):
 
   def test_iter(self):
     fn = FrozenNamespace(a=1, b=2)
-    d = {k: v for k,v in fn.iteritems()}
+    d = {k: v for k,v in iteritems(fn)}
     self.assertEqual(d, {'a': 1, 'b': 2})
 
   def test_del(self):
@@ -84,7 +85,7 @@ class FrozenNamespaceTest(unittest.TestCase):
     with self.assertRaises(TypeError) as context:
       del fn['a']
     message = "'FrozenNamespace' object does not support item deletion"
-    self.assertEqual(message, context.exception.message)
+    self.assertEqual(message, str(context.exception))
 
   def test_hashable(self):
     fn = FrozenNamespace(a=1, b=2)

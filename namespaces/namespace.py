@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import collections
+from six import iteritems
 
 class Namespace(collections.MutableMapping):
   '''Dictionary whose items are also available via dot-notation.
@@ -27,7 +28,7 @@ class Namespace(collections.MutableMapping):
   def __repr__(self):
     '''Representation is a valid python expression for creating a Namespace
     (assuming contents also implement __repr__ as valid python expressions).'''
-    items = ('{}={}'.format(k,repr(v)) for k,v in self.iteritems())
+    items = ('{}={}'.format(k,repr(v)) for k,v in sorted(iteritems(self)))
     return '{}({})'.format(type(self).__name__, ', '.join(items))
 
   # dict pass-through

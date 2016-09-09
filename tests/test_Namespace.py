@@ -1,6 +1,7 @@
 import json
 from namespaces import FrozenNamespace, Namespace, NamespaceEncoder
 import unittest
+from six import iteritems
 
 class NamespaceTest(unittest.TestCase):
 
@@ -56,7 +57,7 @@ class NamespaceTest(unittest.TestCase):
     with self.assertRaises(AttributeError) as context:
       ns.c
     message = "'Namespace' object has no attribute 'c'"
-    self.assertEqual(message, context.exception.message)
+    self.assertEqual(message, str(context.exception))
 
   def test_len(self):
     ns = Namespace(a=1, b=2)
@@ -68,7 +69,7 @@ class NamespaceTest(unittest.TestCase):
 
   def test_iter(self):
     ns = Namespace(a=1, b=2)
-    d = {k: v for k,v in ns.iteritems()}
+    d = {k: v for k,v in iteritems(ns)}
     self.assertEqual(d, {'a': 1, 'b': 2})
 
   def test_del(self):
