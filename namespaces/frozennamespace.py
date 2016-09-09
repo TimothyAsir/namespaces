@@ -29,7 +29,7 @@ class FrozenNamespace(collections.Mapping):
   def __repr__(self):
     '''Representation is a valid python expression for creating a FrozenNamespace
     (assuming contents also implement __repr__ as valid python expressions).'''
-    items = ('{}={}'.format(k,repr(v)) for k,v in iteritems(self))
+    items = ('{}={}'.format(k,repr(v)) for k,v in sorted(iteritems(self)))
     return '{}({})'.format(type(self).__name__, ', '.join(items))
 
   def __hash__(self):

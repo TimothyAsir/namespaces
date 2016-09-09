@@ -28,7 +28,7 @@ class Namespace(collections.MutableMapping):
   def __repr__(self):
     '''Representation is a valid python expression for creating a Namespace
     (assuming contents also implement __repr__ as valid python expressions).'''
-    items = ('{}={}'.format(k,repr(v)) for k,v in iteritems(self))
+    items = ('{}={}'.format(k,repr(v)) for k,v in sorted(iteritems(self)))
     return '{}({})'.format(type(self).__name__, ', '.join(items))
 
   # dict pass-through
