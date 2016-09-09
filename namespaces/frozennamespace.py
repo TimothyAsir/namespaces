@@ -26,13 +26,13 @@ class FrozenNamespace(collections.Mapping):
       raise AttributeError(message.format(type(self).__name__, name))
 
   def __repr__(self):
-    '''Representation is a valid python expression for creating a Namespace
+    '''Representation is a valid python expression for creating a FrozenNamespace
     (assuming contents also implement __repr__ as valid python expressions).'''
     items = ('{}={}'.format(k,repr(v)) for k,v in self.iteritems())
     return '{}({})'.format(type(self).__name__, ', '.join(items))
 
   def __hash__(self):
-    '''Lazily computes cached hash value for performance.'''
+    '''Caches lazily-evaluated hash for performance.'''
     if self._hash is None:
       self._hash = hash(frozenset(self._dict.iteritems()))
     return self._hash
