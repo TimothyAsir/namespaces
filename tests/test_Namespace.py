@@ -56,7 +56,7 @@ class NamespaceTest(unittest.TestCase):
     with self.assertRaises(AttributeError) as context:
       ns.c
     message = "'Namespace' object has no attribute 'c'"
-    self.assertEqual(message, context.exception.message)
+    self.assertEqual(message, str(context.exception))
 
   def test_len(self):
     ns = Namespace(a=1, b=2)
