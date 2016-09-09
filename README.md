@@ -17,13 +17,13 @@ $ pip install namespaces
 The API of `Namespace` is as follows:
 ```python
 import namespaces as ns
-ns = ns.Namespace(a=1, b=2)
-fns = ns.FrozenNamespace(ns)
-fns.b # => 2
-ns.c # => AttributeError
-ns.c = 3
-ns.c # => 3
-fns.c = 3 # => AttributeError
+ab = ns.Namespace(a=1, b=2)
+frozen_ab = ns.FrozenNamespace(ab)
+frozen_ab.b # => 2
+ab.c # => AttributeError
+ab.c = 3
+ab.c # => 3
+frozen_ab.c = 3 # => AttributeError
 ```
 
 `FrozenNamespace` is an immutable, hashable `Namespace`. The hash is lazily computed and is cached for performance.
