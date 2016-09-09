@@ -1,7 +1,8 @@
-import json
+from __future__ import absolute_import
 from namespaces import FrozenNamespace, Namespace, NamespaceEncoder
-import unittest
 from six import iteritems
+import json
+import unittest
 
 class NamespaceTest(unittest.TestCase):
 
