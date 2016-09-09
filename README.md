@@ -12,7 +12,7 @@ $ pip install namespaces
 ```
 
 ## API
-`Namespace` is a flexible, mutable version of [`collections.namedtuple`](https://docs.python.org/2/library/collections.html#collections.namedtuple). You can also think about it as a dictionary whose items are also accessible via dot-notation (ie. `ns.attr` is equivalent to `ns['attr']`).
+`Namespace` is like a flexible, mutable version of [`collections.namedtuple`](https://docs.python.org/2/library/collections.html#collections.namedtuple). You can also think about it as a dictionary whose items are also accessible via dot-notation (ie. `ns.attr` is equivalent to `ns['attr']`).
 
 The API of `Namespace` is as follows:
 ```python
