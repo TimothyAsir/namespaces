@@ -2,7 +2,7 @@ from __future__ import absolute_import, unicode_literals
 import collections
 
 class FrozenNamespace(collections.Mapping):
-  '''Immutable dictionary whose items are also available via dot-notation.'''
+  '''Immutable, hashable dictionary whose items are also available via dot-notation.'''
 
   RESERVED = frozenset(['_dict', '_hash'])
 
