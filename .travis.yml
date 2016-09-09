@@ -5,7 +5,7 @@ python:
 install: pip install .
 script:
 - coverage run --source namespaces setup.py test
-- pylint --py3k namespaces
+- pylint --py3k namespaces tests
 # test coverage via codecov
 before_install:
 - pip install pylint
