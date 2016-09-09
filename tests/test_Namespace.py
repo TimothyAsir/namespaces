@@ -1,6 +1,7 @@
 import json
 from namespaces import FrozenNamespace, Namespace, NamespaceEncoder
 import unittest
+from six import iteritems
 
 class NamespaceTest(unittest.TestCase):
 
@@ -68,7 +69,7 @@ class NamespaceTest(unittest.TestCase):
 
   def test_iter(self):
     ns = Namespace(a=1, b=2)
-    d = {k: v for k,v in ns.iteritems()}
+    d = {k: v for k,v in iteritems(ns)}
     self.assertEqual(d, {'a': 1, 'b': 2})
 
   def test_del(self):
