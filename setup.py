@@ -9,5 +9,8 @@ setup(
   author_email='pcattori@gmail.com',
   license='MIT',
   packages=['namespaces'],
+  install_requires=[
+    'six>=1.10.0'
+  ],
   test_suite='tests'
 )
