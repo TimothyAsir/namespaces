@@ -20,6 +20,11 @@ class NamespaceTest(unittest.TestCase):
     self.assertIsInstance(ns, Namespace)
     self.assertEqual(ns.items(), d.items())
 
+  def test_to_dict(self):
+    d = {'a': 1, 'b': 2, tuple('three'): 3, 4: 4}
+    ns = Namespace(d)
+    self.assertEqual(d, dict(ns))
+
   def test_create_via_frozennamespace(self):
     fn = FrozenNamespace(a=1, b=2)
     ns = Namespace(fn)

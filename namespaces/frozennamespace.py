@@ -1,31 +1,29 @@
 from __future__ import absolute_import, unicode_literals
-from icicle import FrozenDict
-from namespaces import Namespace
+import collections
 
-class FrozenNamespace(FrozenDict):
-  '''Immutable, hashable Namespace.'''
+class FrozenNamespace(collections.Mapping):
+  '''Immutable, hashable dictionary whose items are also available via dot-notation.'''
 
   RESERVED = frozenset(['_dict', '_hash'])
 
   def __init__(self, *args, **kwargs):
+    self._dict = dict(*args, **kwargs)
     self._hash = None
-    super(self.__class__, self).__init__(*args, **kwargs)
 
   def __getattr__(self, name):
-    '''Behaves similarly to collections.namedtuple#__getattr__.'''
-    try:
-      return self[name]
-    except KeyError:
-      raise AttributeError(
-        "'{}' object has no attribute '{}'".format(type(self).__name__, name)
-      )
+    '''Look up item via dot-notation.'''
+    if name not in self._dict:
+      message = "'{}' object has no attribute '{}'"
+      raise AttributeError(message.format(type(self).__name__, name))
+    return self._dict[name]
 
   def __setattr__(self, name, value):
-    if name not in FrozenNamespace.RESERVED:
-      raise AttributeError(
-        "'{}' object has no attribute '{}'".format(type(self).__name__, name)
-      )
-    super(self.__class__, self).__setattr__(name, value)
+    '''Disable setting items via dot-notation to protect against accidental mutations.'''
+    if name in FrozenNamespace.RESERVED:
+      super(self.__class__, self).__setattr__(name, value)
+    else:
+      message = "'{}' object has no attribute '{}'"
+      raise AttributeError(message.format(type(self).__name__, name))
 
   def __repr__(self):
     '''Representation is a valid python expression for creating a FrozenNamespace
@@ -33,15 +31,21 @@ class FrozenNamespace(FrozenDict):
     items = ('{}={}'.format(k,repr(v)) for k,v in self.iteritems())
     return '{}({})'.format(type(self).__name__, ', '.join(items))
 
-  def __eq__(self, other):
-    return isinstance(other, type(self)) and super(self.__class__, self).__eq__(other)
-
-  def __ne__(self, other):
-    return not self == other
-
   def __hash__(self):
     '''Caches lazily-evaluated hash for performance.'''
     if self._hash is None:
-      self._hash = hash(frozenset(self.items()))
+      self._hash = hash(frozenset(self._dict.iteritems()))
     return self._hash
+
+  # dict pass-through
+  ###################
+
+  def __getitem__(self, name):
+    return self._dict[name]
+
+  def __iter__(self):
+    return iter(self._dict)
+
+  def __len__(self):
+    return len(self._dict)
 
