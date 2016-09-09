@@ -2,6 +2,7 @@ from __future__ import absolute_import, unicode_literals
 import collections
 
 class FrozenNamespace(collections.Mapping):
+  '''Immutable dictionary whose items are also available via dot-notation.'''
 
   RESERVED = frozenset(['_dict', '_hash'])
 
@@ -10,17 +11,34 @@ class FrozenNamespace(collections.Mapping):
     self._hash = None
 
   def __getattr__(self, name):
+    '''Look up item via dot-notation.'''
     if name not in self._dict:
       message = "'{}' object has no attribute '{}'"
       raise AttributeError(message.format(type(self).__name__, name))
     return self._dict[name]
 
   def __setattr__(self, name, value):
+    '''Disable setting items via dot-notation to protect against accidental mutations.'''
     if name in FrozenNamespace.RESERVED:
       super(self.__class__, self).__setattr__(name, value)
     else:
       message = "'{}' object has no attribute '{}'"
       raise AttributeError(message.format(type(self).__name__, name))
+
+  def __repr__(self):
+    '''Representation is a valid python expression for creating a Namespace
+    (assuming contents also implement __repr__ as valid python expressions).'''
+    items = ('{}={}'.format(k,repr(v)) for k,v in self.iteritems())
+    return '{}({})'.format(type(self).__name__, ', '.join(items))
+
+  def __hash__(self):
+    '''Lazily computes cached hash value for performance.'''
+    if self._hash is None:
+      self._hash = hash(frozenset(self._dict.iteritems()))
+    return self._hash
+
+  # dict pass-through
+  ###################
 
   def __getitem__(self, name):
     return self._dict[name]
@@ -30,21 +48,4 @@ class FrozenNamespace(collections.Mapping):
 
   def __len__(self):
     return len(self._dict)
-
-  def __repr__(self):
-    '''Representation is a valid python expression for creating a Namespace
-    (assuming contents also implement __repr__ as valid python expressions).'''
-    items = ('{}={}'.format(k,repr(v)) for k,v in self.iteritems())
-    return '{}({})'.format(type(self).__name__, ', '.join(items))
-
-  def __eq__(self, other):
-    return isinstance(other, type(self)) and super(type(self), self).__eq__(other)
-
-  def __ne__(self, other):
-    return not self == other
-
-  def __hash__(self):
-    if self._hash is None:
-      self._hash = hash(frozenset(self._dict.iteritems()))
-    return self._hash
 
