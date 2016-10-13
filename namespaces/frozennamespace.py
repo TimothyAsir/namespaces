@@ -12,7 +12,19 @@ class FrozenNamespace(collections.Mapping):
     self._hash = None
 
   def __getattr__(self, name):
-    '''Look up item via dot-notation.'''
+    '''Look up item via dot-notation.
+
+    :param str name: Key
+    :return: Associated value
+
+    Usage::
+      >>> import namespaces as ns
+      >>> foo = ns.FrozenNamespace(a=1)
+      >>> foo.a # calls foo.__getattr__('a')
+      1
+      >>> foo.b
+      AttributeError: 'Namespace' object has no attribute 'b'
+    '''
     if name not in self._dict:
       message = "'{}' object has no attribute '{}'"
       raise AttributeError(message.format(type(self).__name__, name))
@@ -33,7 +45,17 @@ class FrozenNamespace(collections.Mapping):
     return '{}({})'.format(type(self).__name__, ', '.join(items))
 
   def __hash__(self):
-    '''Caches lazily-evaluated hash for performance.'''
+    '''Caches lazily-evaluated hash for performance.
+
+    :return: Hash value for this FrozenNamespace
+    :rtype: int
+
+    Usage::
+      >>> import namespaces as ns
+      >>> foo = ns.FrozenNamespace(a=1)
+      >>> hash(foo) # calls foo.__hash__()
+      -2550060783245333914
+    '''
     if self._hash is None:
       self._hash = hash(frozenset(iteritems(self)))
     return self._hash
@@ -42,11 +64,49 @@ class FrozenNamespace(collections.Mapping):
   ###################
 
   def __getitem__(self, name):
+    '''Get item via bracket-notation.
+
+    :param str name: Key
+    :return: Corresponding value
+
+    Usage::
+      >>> import namespaces as ns
+      >>> foo = ns.FrozenNamespace(a=1)
+      >>> foo['a'] # calls foo.__getitem__('a')
+      1
+    '''
     return self._dict[name]
 
   def __iter__(self):
+    '''Iterator over item keys.
+
+    :return: Key iterator
+    :rtype: collections.KeysView
+
+    Usage::
+
+      >>> import namespaces as ns
+      >>> foo = ns.FrozenNamespace(a=1, b=2, c=3)
+      >>> for key in foo: # calls foo.__iter__()
+      ...     print(key)
+      a
+      b
+      c
+    '''
     return iter(self._dict)
 
   def __len__(self):
+    '''Calculates length of this FrozenNamespace
+
+    :return: Length of this FrozenNamespace
+    :rtype: int
+
+    Usage::
+
+      >>> import namespaces as ns
+      >>> foo = ns.FrozenNamespace(a=1, b=2, c=3)
+      >>> len(foo) # calls foo.__len__()
+      3
+    '''
     return len(self._dict)
 
