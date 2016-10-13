@@ -140,9 +140,10 @@ class Namespace(collections.MutableMapping):
     del self._dict[name]
 
   def __iter__(self):
-    '''Iterator over keys.
+    '''Iterator over item keys.
 
     :return: Key iterator
+    :rtype: collections.KeysView
 
     Usage::
 
@@ -157,9 +158,9 @@ class Namespace(collections.MutableMapping):
     return iter(self._dict)
 
   def __len__(self):
-    '''Calculates length.
+    '''Calculates length of this Namespace.
 
-    :return: Length of Namespace
+    :return: Length of this Namespace
     :rtype: int
 
     Usage::
