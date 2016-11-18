@@ -7,5 +7,5 @@ class NamespaceEncoder(json.JSONEncoder):
   def default(self, obj):
     if isinstance(obj, FrozenNamespace) or isinstance(obj, Namespace):
       return dict(obj)
-    return json.JSONEncoder.default(self, obj)
+    return json.JSONEncoder.default(self, obj) # pragma: no cover
 
